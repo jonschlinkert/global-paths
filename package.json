@@ -1,0 +1,52 @@
+{
+  "name": "global-paths",
+  "description": "Returns an array of unique \"global\" directories based on the user's platform and environment. The resulting paths can be used for doing lookups for generators or other globally installed npm packages. Node.js / JavaScript.",
+  "version": "0.1.1",
+  "homepage": "https://github.com/jonschlinkert/global-paths",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/global-paths",
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/global-paths/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "array-unique": "^0.2.1",
+    "global-modules": "^0.2.0",
+    "is-windows": "^0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "keywords": [
+    "directory",
+    "dirname",
+    "global",
+    "module",
+    "package",
+    "path",
+    "prefix",
+    "resolve"
+  ],
+  "verb": {
+    "related": {
+      "list": [
+        "global-modules",
+        "global-prefix",
+        "cwd",
+        "git-config-path",
+        "contains-path"
+      ]
+    }
+  }
+}
