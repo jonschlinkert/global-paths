@@ -14,21 +14,25 @@ var unique = require('array-unique');
  */
 
 module.exports = function paths(cwd) {
-  cwd = cwd || process.cwd();
+  // Convert to absolute path
+  cwd = path.resolve(cwd || process.cwd());
 
-  var res = [npm(cwd)].concat(root);
+  var res = [];
   var segs = cwd.split(path.sep);
 
-  while (segs.pop()) {
-    res.push((!isWindows() ? '/' : '') + npm(segs.join('/')));
+  while (segs.length) {
+    res.push(segs.concat('node_modules').join(path.sep));
+    segs.pop();
   }
+
+  res.push(root);
 
   if (process.env.NODE_PATH) {
     var nodePaths = process.env.NODE_PATH.split(path.delimiter);
     res = res.concat(nodePaths.filter(Boolean));
   } else {
     if (isWindows()) {
-      res.push(npm(process.env.APPDATA + '/npm'));
+      res.push(npm(path.join(process.env.APPDATA, 'npm')));
     } else {
       res.push(npm('/usr/lib'));
     }
@@ -39,5 +43,5 @@ module.exports = function paths(cwd) {
 };
 
 function npm(dir) {
-  return path.resolve(dir, 'node_modules');
+  return path.join(dir, 'node_modules');
 }

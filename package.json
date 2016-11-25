@@ -20,12 +20,12 @@
     "test": "mocha"
   },
   "dependencies": {
-    "array-unique": "^0.2.1",
+    "array-unique": "^0.3.2",
     "global-modules": "^0.2.0",
-    "is-windows": "^0.1.0"
+    "is-windows": "^0.2.0"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "^3.2.0"
   },
   "keywords": [
     "directory",
