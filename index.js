@@ -28,7 +28,7 @@ module.exports = function paths(cwd) {
     res = res.concat(nodePaths.filter(Boolean));
   } else {
     if (isWindows()) {
-      res.push(npm(process.env.APPDATA) + '/npm');
+      res.push(npm(process.env.APPDATA + '/npm'));
     } else {
       res.push(npm('/usr/lib'));
     }
