@@ -1,5 +1,6 @@
 'use strict';
 
+var Module = require('module');
 var path = require('path');
 var root = require('global-modules');
 var isWindows = require('is-windows');
@@ -14,19 +15,11 @@ var unique = require('array-unique');
  */
 
 module.exports = function paths(cwd) {
-  // Convert to absolute path
-  cwd = path.resolve(cwd || process.cwd());
-
-  var res = [];
-  var segs = cwd.split(path.sep);
-
-  while (segs.length) {
-    res.push(segs.concat('node_modules').join(path.sep));
-    segs.pop();
-  }
+  var res = Module._nodeModulePaths(cwd || process.cwd());
 
   res.push(root);
 
+  // fall back paths
   if (process.env.NODE_PATH) {
     var nodePaths = process.env.NODE_PATH.split(path.delimiter);
     res = res.concat(nodePaths.filter(Boolean));
@@ -38,7 +31,17 @@ module.exports = function paths(cwd) {
     }
   }
 
-  res.push.apply(res, require.main.paths);
+  var mainModule = process.mainModule;
+
+  // run as a vscode plugin dependence
+  if (!mainModule || process.versions.electron) {
+    mainModule = module;
+    do {
+      mainModule = mainModule.parent;
+    } while (mainModule.parent && /([\/\\])node_modules\1/.test(mainModule.filename));
+  }
+
+  res.push.apply(res, mainModule.paths);
   return unique(res);
 };
 

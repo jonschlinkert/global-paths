@@ -13,7 +13,7 @@ describe('paths', function() {
 
 describe('order', function() {
   var testCase1 = paths(__dirname);
-  it('paths[0]', function() {
+  it('./global-paths/test/node_modules', function() {
     assert.equal(testCase1[0], path.resolve(__dirname, 'node_modules'));
   });
   var indexRootNpm;
@@ -59,5 +59,10 @@ describe('order', function() {
       }
     }
   }
-  console.log(testCase1);
+
+  it('./global-paths', function() {
+    indexRootNpm = testCase1.indexOf(path.resolve('/node_modules'));
+    assert.equal(testCase1[testCase1.length - 1], __dirname);
+  });
+
 });
