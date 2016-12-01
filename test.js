@@ -5,14 +5,14 @@ var assert = require('assert');
 var paths = require('./');
 var path = require('path');
 
-describe('paths', function() {
-  it('should return an array of directories:', function() {
-    assert.equal(paths().length > 1, true);
-  });
-});
-
 describe('order', function() {
   var testCase1 = paths(__dirname);
+
+  it('should return an array of directories:', function() {
+    assert.ok(testCase1.length > 1);
+    assert.ok(Array.isArray(testCase1));
+  });
+
   it('./global-paths/test/node_modules', function() {
     assert.equal(testCase1[0], path.resolve(__dirname, 'node_modules'));
   });

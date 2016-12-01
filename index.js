@@ -41,7 +41,7 @@ module.exports = function paths(cwd) {
     } while (mainModule.parent && /([\/\\])node_modules\1/.test(mainModule.filename));
   }
 
-  res.push.apply(res, mainModule.paths);
+  res = res.concat(mainModule.paths);
   return unique(res);
 };
 
