@@ -45,18 +45,10 @@ describe('order', function() {
         assert.ok(testCase1.length > indexLib);
       });
 
-      if(process.env.NVM_BIN) {
-        it('nvm', function() {
-          var indexNvm;
-          for(var i = indexRootNpm + 1; i < testCase1.length; i++) {
-            if(/nvm\/versions\/node\/v[\d\.]+\/lib\/node_modules$/.test(testCase1[i])) {
-              indexNvm = i;
-            } else {
-            }
-          }
-          assert.ok(indexNvm < indexLib);
-        });
-      }
+      it('bin path', function() {
+        var binNvm = testCase1.indexOf(path.resolve(process.execPath, '../lib/node_modules'));
+        assert.ok(binNvm < indexLib);
+      });
     }
   }
 
