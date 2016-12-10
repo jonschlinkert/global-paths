@@ -1,5 +1,6 @@
 'use strict';
 
+var Module = require('module');
 var path = require('path');
 var root = require('global-modules');
 var isWindows = require('is-windows');
@@ -14,30 +15,36 @@ var unique = require('array-unique');
  */
 
 module.exports = function paths(cwd) {
-  cwd = cwd || process.cwd();
+  var res = Module._nodeModulePaths(cwd || process.cwd());
 
-  var res = [npm(cwd)].concat(root);
-  var segs = cwd.split(path.sep);
+  res.push(root);
 
-  while (segs.pop()) {
-    res.push((!isWindows() ? '/' : '') + npm(segs.join('/')));
-  }
-
+  // fall back paths
   if (process.env.NODE_PATH) {
     var nodePaths = process.env.NODE_PATH.split(path.delimiter);
     res = res.concat(nodePaths.filter(Boolean));
   } else {
     if (isWindows()) {
-      res.push(npm(process.env.APPDATA) + '/npm');
+      res.push(npm(path.join(process.env.APPDATA, 'npm')));
     } else {
       res.push(npm('/usr/lib'));
     }
   }
 
-  res.push.apply(res, require.main.paths);
+  var mainModule = process.mainModule;
+
+  // run as a vscode plugin dependence
+  if (!mainModule || process.versions.electron) {
+    mainModule = module;
+    do {
+      mainModule = mainModule.parent;
+    } while (mainModule.parent && /([\/\\])node_modules\1/.test(mainModule.filename));
+  }
+
+  res = res.concat(mainModule.paths);
   return unique(res);
 };
 
 function npm(dir) {
-  return path.resolve(dir, 'node_modules');
+  return path.join(dir, 'node_modules');
 }
