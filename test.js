@@ -1,9 +1,9 @@
 'use strict';
 
-/* deps: mocha */
+require('mocha');
+var path = require('path');
 var assert = require('assert');
 var paths = require('./');
-var path = require('path');
 
 describe('order', function() {
   var testCase1 = paths(__dirname);
