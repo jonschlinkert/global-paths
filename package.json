@@ -13,9 +13,6 @@
     "index.js"
   ],
   "main": "index.js",
-  "engines": {
-    "node": ">=0.10.0"
-  },
   "scripts": {
     "test": "mocha"
   },
